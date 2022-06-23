@@ -10,13 +10,18 @@ const port = process.env.PORT || 5001;
 app.use(cors());
 app.use(express.json());
 
-//Mongodb connection
+// Mongodb connection
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, { useNewUrlParser: true });
 const connection = mongoose.connection;
 connection.once("open", () => {
     console.log("MongoDB database connection established successfully");
 });
+
+// Routes
+const campaignsRouter = require("./routes/campaigns");
+
+app.use("/campaigns", campaignsRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
