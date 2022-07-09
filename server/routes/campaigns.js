@@ -23,4 +23,18 @@ router.route("/add").post((req, res) => {
         .catch(err => res.status(400).json("Error: " + err));
 });
 
+router.route("/:id").get((req, res) => {
+    Campaign.findById(req.params.id)
+        .then(campaign => res.json(campaign))
+        .catch(err => res.status(400).json("Error: " + err));
+});
+
+router.route("/:id").delete((req, res) => {
+    Campaign.findByIdAndDelete(req.params.id)
+        .then(() => res.json("Campaign deleted."))
+        .catch(err => res.status(400).json("Error: " + err));
+});
+
+// May not need to implement update for this app
+
 module.exports = router;
