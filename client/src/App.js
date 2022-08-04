@@ -9,9 +9,9 @@ function App() {
   return (
     <Router>
       <div className="container">
-      <Navbar />
-      <br/>
-      <Route path="/" exact component={CampaignList} />
+        <Navbar />
+        <br/>
+        <Route path="/" exact component={CampaignList} />
       </div>
     </Router>
   );
