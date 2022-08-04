@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 export default class CampaignList extends Component {
     constructor(props) {
@@ -12,9 +13,17 @@ export default class CampaignList extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            campaigns: ["First campaign", "Second campaign"]
-        })
+        axios.get("http://localhost:5001/campaigns")
+            .then(response => {
+                if(response.data.length > 0) {
+                    this.setState({
+                        campaigns: response.data.map(campaign => campaign.name)
+                    })
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     render() {
