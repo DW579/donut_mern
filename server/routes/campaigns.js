@@ -18,6 +18,7 @@ router.route("/add").post((req, res) => {
         // images
     });
 
+    // Add campaign info to mongodb
     newCampaign.save()
         .then(() => res.json("Campaign added!"))
         .catch(err => res.status(400).json("Error: " + err));
