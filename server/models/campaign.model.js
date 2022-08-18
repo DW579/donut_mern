@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 
 const campaignSchema = new Schema({
     name: { type: String, required: true },
-    html: { type: String, required: true },
-    // images: { type: Object, required: true }
+    images_folder_path: { type: String, required: true },
+    html: { type: String, required: true }
 }, {
     timestamps: true,
 });
