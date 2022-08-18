@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-const ImageKit = require("imagekit-javascript")
 
 export default class CampaignList extends Component {
     constructor(props) {
@@ -134,7 +133,22 @@ export default class CampaignList extends Component {
                 campaign.html = final_html;
 
                 axios.post('http://localhost:5001/campaigns/add', campaign)
-                    .then(res => console.log(res.data));
+                    .then(res => {
+                        console.log(res.data);
+
+                        // Pull all campaigns from mongodb
+                        axios.get("http://localhost:5001/campaigns")
+                        .then(response => {
+                            if(response.data.length > 0) {
+                                this.setState({
+                                    campaign_names: response.data.map(campaign => campaign.name)
+                                })
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        })
+                    });
             })
     }
 
