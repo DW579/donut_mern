@@ -15,7 +15,14 @@ export default class CampaignOption extends Component {
     }
 
     copyHtml(e) {
-        console.log("copy html")
+        axios.get("http://localhost:5001/campaigns/" + this.state.id)
+            .then(response => {
+                console.log("Copied to clipboard")
+                navigator.clipboard.writeText(response.data.html);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     deleteCampaign(e) {
