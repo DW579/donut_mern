@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+import CampaignOption from "./campaign-option.component";
+
 export default class CampaignList extends Component {
     constructor(props) {
         super(props);
@@ -12,7 +14,8 @@ export default class CampaignList extends Component {
             name: "",
             html: "",
             image_folder_exist: false,
-            campaign_names: []
+            campaign_names: [],
+            campaigns: []
         }
     }
 
@@ -22,7 +25,8 @@ export default class CampaignList extends Component {
             .then(response => {
                 if(response.data.length > 0) {
                     this.setState({
-                        campaign_names: response.data.map(campaign => campaign.name)
+                        campaign_names: response.data.map(campaign => campaign.name),
+                        campaigns: response.data.map(campaign => campaign)
                     })
                 }
             })
@@ -59,7 +63,6 @@ export default class CampaignList extends Component {
     async onSubmit(e) {
         e.preventDefault();
 
-        // console.log(this.state.name)
         // console.log(e.target[1].files) //html file
         // console.log(e.target[2].files) //images
 
@@ -175,16 +178,15 @@ export default class CampaignList extends Component {
                         disabled={this.state.image_folder_exist}
                         type="submit"></input>
                 </form>
-                <ul>
-                   {
-                    this.state.campaign_names.map(function(campaign_name) {
-                        return <li
-                            key={campaign_name}
-                            value={campaign_name}
-                            >{campaign_name}</li>;
+                {
+                    this.state.campaigns.map(function(campaign) {
+                        return <CampaignOption 
+                            key={campaign.name} 
+                            campaignName={campaign.name}
+                            campaignId={campaign._id}
+                            ></CampaignOption>
                     })
-                   } 
-                </ul>
+                }
             </div>
         )
     }
