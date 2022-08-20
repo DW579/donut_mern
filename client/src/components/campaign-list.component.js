@@ -7,6 +7,7 @@ export default class CampaignList extends Component {
     constructor(props) {
         super(props);
 
+        this.handleCallback = this.handleCallback.bind(this);
         this.onChangeName = this.onChangeName.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
@@ -17,6 +18,12 @@ export default class CampaignList extends Component {
             campaign_names: [],
             campaigns: []
         }
+    }
+
+
+    handleCallback = (campaign) => {
+        console.log(campaign)
+        
     }
 
     componentDidMount() {
@@ -139,18 +146,10 @@ export default class CampaignList extends Component {
                     .then(res => {
                         console.log(res.data);
 
-                        // Pull all campaigns from mongodb
-                        axios.get("http://localhost:5001/campaigns")
-                        .then(response => {
-                            if(response.data.length > 0) {
-                                this.setState({
-                                    campaign_names: response.data.map(campaign => campaign.name)
-                                })
-                            }
+                        this.setState({
+                            campaigns: [...this.state.campaigns, res.data]
                         })
-                        .catch((error) => {
-                            console.log(error);
-                        })
+
                     });
             })
     }
@@ -179,13 +178,15 @@ export default class CampaignList extends Component {
                         type="submit"></input>
                 </form>
                 {
-                    this.state.campaigns.map(function(campaign) {
-                        return <CampaignOption 
-                            key={campaign.name} 
-                            campaignName={campaign.name}
-                            campaignId={campaign._id}
-                            ></CampaignOption>
-                    })
+                    this.state.campaigns.map(campaign => (
+
+                        <CampaignOption 
+                        key={campaign.name} 
+                        campaignName={campaign.name}
+                        campaignId={campaign._id}
+                        parentCallback={this.handleCallback}
+                        ></CampaignOption>
+                    ))
                 }
             </div>
         )

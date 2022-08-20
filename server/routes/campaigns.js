@@ -74,7 +74,7 @@ router.route("/add").post((req, res) => {
 
     // Add campaign info to mongodb
     newCampaign.save()
-        .then(() => res.json("Campaign added!"))
+        .then((data) => res.json(data))
         .catch(err => res.status(400).json("Error: " + err));
 });
 
@@ -85,9 +85,30 @@ router.route("/:id").get((req, res) => {
 });
 
 router.route("/:id").delete((req, res) => {
-    Campaign.findByIdAndDelete(req.params.id)
-        .then(() => res.json("Campaign deleted."))
+    Campaign.findById(req.params.id)
+        .then(campaign => {
+            const images_folder_path = campaign.images_folder_path;
+            const id = req.params.id;
+
+            const imagekit = new ImageKit({
+                publicKey : process.env.IMAGEKIT_PUBLIC_KEY,
+                privateKey : process.env.IMAGEKIT_PRIVATE_KEY,
+                urlEndpoint : process.env.IMAGEKIT_URL_ENDPOINT
+            });
+
+            imagekit.deleteFolder(images_folder_path, function(error, result) {
+                if(error) console.log(error);
+                else console.log(result);
+            });
+
+            Campaign.findByIdAndDelete(id)
+                .then(() => res.json("Campaign deleted."))
+                .catch(err => res.status(400).json("Error: " + err));
+
+        })
         .catch(err => res.status(400).json("Error: " + err));
+
+    
 });
 
 // May not need to implement update for this app

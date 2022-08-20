@@ -14,7 +14,7 @@ export default class CampaignOption extends Component {
         }
     }
 
-    copyHtml(e) {
+    copyHtml() {
         axios.get("http://localhost:5001/campaigns/" + this.state.id)
             .then(response => {
                 console.log("Copied to clipboard")
@@ -25,23 +25,34 @@ export default class CampaignOption extends Component {
             })
     }
 
-    deleteCampaign(e) {
-        console.log("delete campaign")
+    deleteCampaign() {
+        axios.delete("http://localhost:5001/campaigns/" + this.state.id)
+            .then(response => {
+                console.log(response)
+                if(response.status === 200) {
+                    console.log("successful delete, tell parent")
+                    this.props.parentCallback("Data from child");
+                    // window.location.reload();
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     render() {
         return (
             <div>
                 <div 
-                    style={{display: "inline-block", paddingRight: "10px"}}
+                    style={{display: "inline-block", paddingRight: "20px"}}
                     >
                         {this.state.name}
                     </div>
                 <div 
-                    style={{display: "inline-block", paddingRight: "10px"}} 
+                    style={{display: "inline-block", paddingRight: "20px"}} 
                     onClick={this.copyHtml}
                     >
-                        Copy HTML
+                        Copy
                     </div>
                 <div 
                     style={{display: "inline-block"}}
