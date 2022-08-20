@@ -21,9 +21,14 @@ export default class CampaignList extends Component {
     }
 
 
-    handleCallback = (campaign) => {
-        console.log(campaign)
-        
+    handleCallback(campaign_data){
+        if(campaign_data.delete) {
+            this.setState({
+                campaigns: this.state.campaigns.filter(function(campaign) {
+                    return campaign._id !== campaign_data.id;
+                })
+            })
+        }
     }
 
     componentDidMount() {
@@ -184,7 +189,7 @@ export default class CampaignList extends Component {
                         key={campaign.name} 
                         campaignName={campaign.name}
                         campaignId={campaign._id}
-                        parentCallback={this.handleCallback}
+                        deleteCallback={this.handleCallback}
                         ></CampaignOption>
                     ))
                 }

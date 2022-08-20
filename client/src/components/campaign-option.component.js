@@ -26,13 +26,17 @@ export default class CampaignOption extends Component {
     }
 
     deleteCampaign() {
-        axios.delete("http://localhost:5001/campaigns/" + this.state.id)
+        const campaign_id = this.state.id;
+
+        axios.delete("http://localhost:5001/campaigns/" + campaign_id)
             .then(response => {
-                console.log(response)
                 if(response.status === 200) {
-                    console.log("successful delete, tell parent")
-                    this.props.parentCallback("Data from child");
-                    // window.location.reload();
+                    const campaign_data = {
+                        id: campaign_id,
+                        delete: true
+                    }
+
+                    this.props.deleteCallback(campaign_data);
                 }
             })
             .catch((error) => {
