@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import "../styles/styles.css"
 
 export default class CampaignOption extends Component {
     constructor(props) {
@@ -52,15 +53,17 @@ export default class CampaignOption extends Component {
                     >
                         {this.state.name}
                     </div>
-                <div 
+                <div
                     style={{display: "inline-block", paddingRight: "20px"}} 
                     onClick={this.copyHtml}
+                    className="button"
                     >
                         Copy
                     </div>
                 <div 
                     style={{display: "inline-block"}}
                     onClick={this.deleteCampaign}
+                    className="button"
                     >
                         Delete
                     </div>

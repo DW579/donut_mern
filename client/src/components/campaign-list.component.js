@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import donut_gif from "../images/donut.gif"
 
 import CampaignOption from "./campaign-option.component";
 
@@ -16,7 +17,8 @@ export default class CampaignList extends Component {
             html: "",
             image_folder_exist: false,
             campaign_names: [],
-            campaigns: []
+            campaigns: [],
+            loading: false
         }
     }
 
@@ -77,6 +79,11 @@ export default class CampaignList extends Component {
 
         // console.log(e.target[1].files) //html file
         // console.log(e.target[2].files) //images
+
+        // Display loading screen and hide dashboard
+        this.setState({
+            loading: true
+        })
 
         // Images that the user uploaded
         const uploaded_images = e.target[2].files;
@@ -152,46 +159,62 @@ export default class CampaignList extends Component {
                         console.log(res.data);
 
                         this.setState({
-                            campaigns: [...this.state.campaigns, res.data]
+                            name: "",
+                            campaigns: [...this.state.campaigns, res.data],
+                            loading: false
                         })
 
+                        // Reset the upload file inputs to have no files
+                        e.target[1].value = null;
+                        e.target[2].value = null;
                     });
             })
     }
 
     render() {
+        const loading = this.state.loading;
+
         return (
             <div>
-                <form onSubmit={this.onSubmit}>
-                    <input 
-                        required
-                        type="text" 
-                        style={{outline: "none"}}
-                        value={this.state.name}
-                        onChange={this.onChangeName}></input>
-                    <input 
-                        required
-                        type="file" 
-                        accept=".html"></input>
-                    <input 
-                        required
-                        type="file" 
-                        accept=".png, .jpg, .jpeg, .gif"
-                        multiple></input>
-                    <input 
-                        disabled={this.state.image_folder_exist}
-                        type="submit"></input>
-                </form>
-                {
-                    this.state.campaigns.map(campaign => (
+                {loading
+                    ?
+                    <div>
+                        <img src={donut_gif} alt="donut"></img>
+                    </div>
+                    :
+                    <div>
+                        <form onSubmit={this.onSubmit}>
+                            <input 
+                                required
+                                type="text" 
+                                style={{outline: "none"}}
+                                value={this.state.name}
+                                onChange={this.onChangeName}></input>
+                            <input 
+                                required
+                                type="file" 
+                                accept=".html"></input>
+                            <input 
+                                required
+                                type="file" 
+                                accept=".png, .jpg, .jpeg, .gif"
+                                multiple></input>
+                            <input 
+                                disabled={this.state.image_folder_exist}
+                                type="submit"></input>
+                        </form>
+                        {
+                            this.state.campaigns.map(campaign => (
 
-                        <CampaignOption 
-                        key={campaign.name} 
-                        campaignName={campaign.name}
-                        campaignId={campaign._id}
-                        deleteCallback={this.handleCallback}
-                        ></CampaignOption>
-                    ))
+                                <CampaignOption 
+                                key={campaign.name} 
+                                campaignName={campaign.name}
+                                campaignId={campaign._id}
+                                deleteCallback={this.handleCallback}
+                                ></CampaignOption>
+                            ))
+                        }
+                    </div>
                 }
             </div>
         )
