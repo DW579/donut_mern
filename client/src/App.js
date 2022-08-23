@@ -4,15 +4,16 @@ import { BrowserRouter as Router, Route} from "react-router-dom";
 
 import Navbar from "./components/navbar.component"
 import CampaignList from "./components/campaign-list.component";
+import Container from "react-bootstrap/Container";
 
 function App() {
   return (
     <Router>
-      <div className="container">
+      <Container fluid>
         <Navbar />
         <br/>
         <Route path="/" exact component={CampaignList} />
-      </div>
+      </Container>
     </Router>
   );
 }

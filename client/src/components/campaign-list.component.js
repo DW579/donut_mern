@@ -3,6 +3,8 @@ import axios from "axios";
 import donut_gif from "../images/donut.gif"
 
 import CampaignOption from "./campaign-option.component";
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export default class CampaignList extends Component {
     constructor(props) {
@@ -18,7 +20,8 @@ export default class CampaignList extends Component {
             image_folder_exist: false,
             campaign_names: [],
             campaigns: [],
-            loading: false
+            loading: false,
+            uploading: ""
         }
     }
 
@@ -126,9 +129,17 @@ export default class CampaignList extends Component {
             }
 
             await axios.post('http://localhost:5001/campaigns/host_image', image)
-                    .then(res => console.log(res.data));
+                    .then(res => {
+                        console.log(res.data)
+                        this.setState({
+                            uploading: res.data
+                        })
+                    });
         }
 
+        this.setState({
+            uploading: "Finish uploading images"
+        })
         console.log("Finish uploading images")
 
         
@@ -161,7 +172,8 @@ export default class CampaignList extends Component {
                         this.setState({
                             name: "",
                             campaigns: [...this.state.campaigns, res.data],
-                            loading: false
+                            loading: false,
+                            uploading: ""
                         })
 
                         // Reset the upload file inputs to have no files
@@ -178,9 +190,13 @@ export default class CampaignList extends Component {
             <div>
                 {loading
                     ?
-                    <div>
-                        <img src={donut_gif} alt="donut"></img>
-                    </div>
+                    <Row>
+                        <Col>
+                            <img src={donut_gif} style={{display: "block", marginLeft: "auto", marginRight: "auto"}} alt="donut"></img>
+                            <h1 style={{textAlign: "center"}}>Uploading....</h1>
+                            <h2 style={{textAlign: "center"}}>{this.state.uploading}</h2>
+                        </Col>
+                    </Row>
                     :
                     <div>
                         <form onSubmit={this.onSubmit}>
