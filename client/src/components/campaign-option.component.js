@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 import "../styles/styles.css"
 
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+
 export default class CampaignOption extends Component {
     constructor(props) {
         super(props);
@@ -47,27 +50,13 @@ export default class CampaignOption extends Component {
 
     render() {
         return (
-            <div>
-                <div 
-                    style={{display: "inline-block", paddingRight: "20px"}}
-                    >
-                        {this.state.name}
-                    </div>
-                <div
-                    style={{display: "inline-block", paddingRight: "20px"}} 
-                    onClick={this.copyHtml}
-                    className="button"
-                    >
-                        Copy
-                    </div>
-                <div 
-                    style={{display: "inline-block"}}
-                    onClick={this.deleteCampaign}
-                    className="button"
-                    >
-                        Delete
-                    </div>
-            </div>
+            <Card style={{marginBottom: "30px"}}>
+                <Card.Header as="h5">{this.state.name}</Card.Header>
+                <Card.Body>
+                    <Button onClick={this.copyHtml} variant="primary">Copy HTML</Button>
+                    <Button onClick={this.deleteCampaign} variant="danger" style={{float: "right"}}>Delete</Button>
+                </Card.Body>
+            </Card>
         )
     }
 }

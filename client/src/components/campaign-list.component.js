@@ -198,39 +198,60 @@ export default class CampaignList extends Component {
                         </Col>
                     </Row>
                     :
-                    <div>
-                        <form onSubmit={this.onSubmit}>
-                            <input 
-                                required
-                                type="text" 
-                                style={{outline: "none"}}
-                                value={this.state.name}
-                                onChange={this.onChangeName}></input>
-                            <input 
-                                required
-                                type="file" 
-                                accept=".html"></input>
-                            <input 
-                                required
-                                type="file" 
-                                accept=".png, .jpg, .jpeg, .gif"
-                                multiple></input>
-                            <input 
-                                disabled={this.state.image_folder_exist}
-                                type="submit"></input>
-                        </form>
-                        {
-                            this.state.campaigns.map(campaign => (
+                    <Row>
+                        <Col>
+                            <Row>
+                                <Col xs={1}></Col>
+                                <Col>
+                                    <form style={{textAlign: "center", marginBottom: "30px"}} onSubmit={this.onSubmit}>
+                                        <input 
+                                            required
+                                            type="text" 
+                                            style={{outline: "none", marginRight: "50px"}}
+                                            value={this.state.name}
+                                            onChange={this.onChangeName}></input>
+                                        <input 
+                                            required
+                                            type="file" 
+                                            accept=".html"></input>
+                                        <input 
+                                            required
+                                            type="file" 
+                                            accept=".png, .jpg, .jpeg, .gif"
+                                            multiple></input>
+                                        <input 
+                                            disabled={this.state.image_folder_exist}
+                                            type="submit"></input>
+                                    </form>
+                                </Col>
+                                <Col xs={1}></Col>
+                            </Row>
+                            <Row>
+                                <Col></Col>
+                                <Col>
+                                    <h1 style={{marginBottom: "30px", borderBottom: "2px solid black"}}>Campaigns</h1>
+                                </Col>
+                                <Col></Col>
+                            </Row>
+                            <Row>
+                                <Col></Col>
+                                <Col>
+                                {
+                                    this.state.campaigns.reverse().map(campaign => (
 
-                                <CampaignOption 
-                                key={campaign.name} 
-                                campaignName={campaign.name}
-                                campaignId={campaign._id}
-                                deleteCallback={this.handleCallback}
-                                ></CampaignOption>
-                            ))
-                        }
-                    </div>
+                                        <CampaignOption 
+                                        key={campaign.name} 
+                                        campaignName={campaign.name}
+                                        campaignId={campaign._id}
+                                        deleteCallback={this.handleCallback}
+                                        ></CampaignOption>
+                                    ))
+                                }
+                                </Col>
+                                <Col></Col>
+                            </Row>
+                        </Col>
+                    </Row>
                 }
             </div>
         )
