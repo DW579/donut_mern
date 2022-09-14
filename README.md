@@ -1,6 +1,6 @@
 # donut_mern
 
-Faster email builds built on the MERN stack
+Expedite QA process by streamlining the image hosting process. Built on the MERN stack.
 
 ## Start sever
 
